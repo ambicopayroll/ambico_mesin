@@ -6,6 +6,7 @@ ob_start(); // Turn on output buffering
 <?php include_once ((EW_USE_ADODB) ? "adodb5/adodb.inc.php" : "ewmysql13.php") ?>
 <?php include_once "phpfn13.php" ?>
 <?php include_once "pegawai_dinfo.php" ?>
+<?php include_once "pegawaiinfo.php" ?>
 <?php include_once "t_userinfo.php" ?>
 <?php include_once "userfn13.php" ?>
 <?php
@@ -287,6 +288,9 @@ class cpegawai_d_list extends cpegawai_d {
 		$this->MultiDeleteUrl = "pegawai_ddelete.php";
 		$this->MultiUpdateUrl = "pegawai_dupdate.php";
 
+		// Table object (pegawai)
+		if (!isset($GLOBALS['pegawai'])) $GLOBALS['pegawai'] = new cpegawai();
+
 		// Table object (t_user)
 		if (!isset($GLOBALS['t_user'])) $GLOBALS['t_user'] = new ct_user();
 
@@ -450,6 +454,9 @@ class cpegawai_d_list extends cpegawai_d {
 
 		// Create Token
 		$this->CreateToken();
+
+		// Set up master detail parameters
+		$this->SetUpMasterParms();
 
 		// Setup other options
 		$this->SetupOtherOptions();
@@ -665,8 +672,28 @@ class cpegawai_d_list extends cpegawai_d {
 		$sFilter = "";
 		if (!$Security->CanList())
 			$sFilter = "(0=1)"; // Filter all records
+
+		// Restore master/detail filter
+		$this->DbMasterFilter = $this->GetMasterFilter(); // Restore master filter
+		$this->DbDetailFilter = $this->GetDetailFilter(); // Restore detail filter
 		ew_AddFilter($sFilter, $this->DbDetailFilter);
 		ew_AddFilter($sFilter, $this->SearchWhere);
+
+		// Load master record
+		if ($this->CurrentMode <> "add" && $this->GetMasterFilter() <> "" && $this->getCurrentMasterTable() == "pegawai") {
+			global $pegawai;
+			$rsmaster = $pegawai->LoadRs($this->DbMasterFilter);
+			$this->MasterRecordExists = ($rsmaster && !$rsmaster->EOF);
+			if (!$this->MasterRecordExists) {
+				$this->setFailureMessage($Language->Phrase("NoRecord")); // Set no record found
+				$this->Page_Terminate("pegawailist.php"); // Return to master page
+			} else {
+				$pegawai->LoadListRowValues($rsmaster);
+				$pegawai->RowType = EW_ROWTYPE_MASTER; // Master row
+				$pegawai->RenderListRow();
+				$rsmaster->Close();
+			}
+		}
 
 		// Set up filter in session
 		$this->setSessionWhere($sFilter);
@@ -893,6 +920,7 @@ class cpegawai_d_list extends cpegawai_d {
 
 	// Build basic search SQL
 	function BuildBasicSearchSQL(&$Where, &$Fld, $arKeywords, $type) {
+		global $EW_BASIC_SEARCH_IGNORE_PATTERN;
 		$sDefCond = ($type == "OR") ? "OR" : "AND";
 		$arSQL = array(); // Array for SQL parts
 		$arCond = array(); // Array for search conditions
@@ -901,8 +929,8 @@ class cpegawai_d_list extends cpegawai_d {
 		for ($i = 0; $i < $cnt; $i++) {
 			$Keyword = $arKeywords[$i];
 			$Keyword = trim($Keyword);
-			if (EW_BASIC_SEARCH_IGNORE_PATTERN <> "") {
-				$Keyword = preg_replace(EW_BASIC_SEARCH_IGNORE_PATTERN, "\\", $Keyword);
+			if ($EW_BASIC_SEARCH_IGNORE_PATTERN <> "") {
+				$Keyword = preg_replace($EW_BASIC_SEARCH_IGNORE_PATTERN, "\\", $Keyword);
 				$ar = explode("\\", $Keyword);
 			} else {
 				$ar = array($Keyword);
@@ -1093,6 +1121,14 @@ class cpegawai_d_list extends cpegawai_d {
 			if ($this->Command == "reset" || $this->Command == "resetall")
 				$this->ResetSearchParms();
 
+			// Reset master/detail keys
+			if ($this->Command == "resetall") {
+				$this->setCurrentMasterTable(""); // Clear master table
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+				$this->pegawai_id->setSessionValue("");
+			}
+
 			// Reset sorting order
 			if ($this->Command == "resetsort") {
 				$sOrderBy = "";
@@ -1165,6 +1201,14 @@ class cpegawai_d_list extends cpegawai_d {
 		$item->ShowInDropDown = FALSE;
 		$item->ShowInButtonGroup = FALSE;
 
+		// "sequence"
+		$item = &$this->ListOptions->Add("sequence");
+		$item->CssStyle = "white-space: nowrap;";
+		$item->Visible = TRUE;
+		$item->OnLeft = TRUE; // Always on left
+		$item->ShowInDropDown = FALSE;
+		$item->ShowInButtonGroup = FALSE;
+
 		// Drop down button for ListOptions
 		$this->ListOptions->UseImageAndText = TRUE;
 		$this->ListOptions->UseDropDownButton = FALSE;
@@ -1185,6 +1229,10 @@ class cpegawai_d_list extends cpegawai_d {
 	function RenderListOptions() {
 		global $Security, $Language, $objForm;
 		$this->ListOptions->LoadDefault();
+
+		// "sequence"
+		$oListOpt = &$this->ListOptions->Items["sequence"];
+		$oListOpt->Body = ew_FormatSeqNo($this->RecCnt);
 
 		// "view"
 		$oListOpt = &$this->ListOptions->Items["view"];
@@ -1843,6 +1891,25 @@ class cpegawai_d_list extends cpegawai_d {
 		// Call Page Exporting server event
 		$this->ExportDoc->ExportCustom = !$this->Page_Exporting();
 		$ParentTable = "";
+
+		// Export master record
+		if (EW_EXPORT_MASTER_RECORD && $this->GetMasterFilter() <> "" && $this->getCurrentMasterTable() == "pegawai") {
+			global $pegawai;
+			if (!isset($pegawai)) $pegawai = new cpegawai;
+			$rsmaster = $pegawai->LoadRs($this->DbMasterFilter); // Load master record
+			if ($rsmaster && !$rsmaster->EOF) {
+				$ExportStyle = $Doc->Style;
+				$Doc->SetStyle("v"); // Change to vertical
+				if ($this->Export <> "csv" || EW_EXPORT_MASTER_RECORD_FOR_CSV) {
+					$Doc->Table = &$pegawai;
+					$pegawai->ExportDocument($Doc, $rsmaster, 1, 1);
+					$Doc->ExportEmptyRow();
+					$Doc->Table = &$this;
+				}
+				$Doc->SetStyle($ExportStyle); // Restore
+				$rsmaster->Close();
+			}
+		}
 		$sHeader = $this->PageHeader;
 		$this->Page_DataRendering($sHeader);
 		$Doc->Text .= $sHeader;
@@ -2001,6 +2068,72 @@ class cpegawai_d_list extends cpegawai_d {
 				"&y_" . $FldParm . "=" . urlencode($FldSearchValue2) .
 				"&w_" . $FldParm . "=" . urlencode($Fld->AdvancedSearch->getValue("w"));
 		}
+	}
+
+	// Set up master/detail based on QueryString
+	function SetUpMasterParms() {
+		$bValidMaster = FALSE;
+
+		// Get the keys for master table
+		if (isset($_GET[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_GET[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_GET["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setQueryStringValue($_GET["fk_pegawai_id"]);
+					$this->pegawai_id->setQueryStringValue($GLOBALS["pegawai"]->pegawai_id->QueryStringValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->QueryStringValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->QueryStringValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		} elseif (isset($_POST[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_POST[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_POST["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setFormValue($_POST["fk_pegawai_id"]);
+					$this->pegawai_id->setFormValue($GLOBALS["pegawai"]->pegawai_id->FormValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->FormValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->FormValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		}
+		if ($bValidMaster) {
+
+			// Update URL
+			$this->AddUrl = $this->AddMasterUrl($this->AddUrl);
+			$this->InlineAddUrl = $this->AddMasterUrl($this->InlineAddUrl);
+			$this->GridAddUrl = $this->AddMasterUrl($this->GridAddUrl);
+			$this->GridEditUrl = $this->AddMasterUrl($this->GridEditUrl);
+
+			// Save current master table
+			$this->setCurrentMasterTable($sMasterTblVar);
+
+			// Reset start record counter (new master key)
+			$this->StartRec = 1;
+			$this->setStartRecordNumber($this->StartRec);
+
+			// Clear previous master key from Session
+			if ($sMasterTblVar <> "pegawai") {
+				if ($this->pegawai_id->CurrentValue == "") $this->pegawai_id->setSessionValue("");
+			}
+		}
+		$this->DbMasterFilter = $this->GetMasterFilter(); // Get master filter
+		$this->DbDetailFilter = $this->GetDetailFilter(); // Get detail filter
 	}
 
 	// Set up Breadcrumb
@@ -2220,6 +2353,17 @@ var CurrentSearchForm = fpegawai_dlistsrch = new ew_Form("fpegawai_dlistsrch");
 <div class="clearfix"></div>
 </div>
 <?php } ?>
+<?php if (($pegawai_d->Export == "") || (EW_EXPORT_MASTER_RECORD && $pegawai_d->Export == "print")) { ?>
+<?php
+if ($pegawai_d_list->DbMasterFilter <> "" && $pegawai_d->getCurrentMasterTable() == "pegawai") {
+	if ($pegawai_d_list->MasterRecordExists) {
+?>
+<?php include_once "pegawaimaster.php" ?>
+<?php
+	}
+}
+?>
+<?php } ?>
 <?php
 	$bSelectLimit = $pegawai_d_list->UseSelectLimit;
 	if ($bSelectLimit) {
@@ -2245,6 +2389,13 @@ var CurrentSearchForm = fpegawai_dlistsrch = new ew_Form("fpegawai_dlistsrch");
 			$pegawai_d_list->setWarningMessage($Language->Phrase("EnterSearchCriteria"));
 		else
 			$pegawai_d_list->setWarningMessage($Language->Phrase("NoRecord"));
+	}
+
+	// Audit trail on search
+	if ($pegawai_d_list->AuditTrailOnSearch && $pegawai_d_list->Command == "search" && !$pegawai_d_list->RestoreSearch) {
+		$searchparm = ew_ServerVar("QUERY_STRING");
+		$searchsql = $pegawai_d_list->getSessionWhere();
+		$pegawai_d_list->WriteAuditTrailOnSearch($searchparm, $searchsql);
 	}
 $pegawai_d_list->RenderOtherOptions();
 ?>
@@ -2288,6 +2439,10 @@ $pegawai_d_list->ShowMessage();
 <input type="hidden" name="<?php echo EW_TOKEN_NAME ?>" value="<?php echo $pegawai_d_list->Token ?>">
 <?php } ?>
 <input type="hidden" name="t" value="pegawai_d">
+<?php if ($pegawai_d->getCurrentMasterTable() == "pegawai" && $pegawai_d->CurrentAction <> "") { ?>
+<input type="hidden" name="<?php echo EW_TABLE_SHOW_MASTER ?>" value="pegawai">
+<input type="hidden" name="fk_pegawai_id" value="<?php echo $pegawai_d->pegawai_id->getSessionValue() ?>">
+<?php } ?>
 <div id="gmp_pegawai_d" class="<?php if (ew_IsResponsiveLayout()) { echo "table-responsive "; } ?>ewGridMiddlePanel">
 <?php if ($pegawai_d_list->TotalRecs > 0 || $pegawai_d->CurrentAction == "gridedit") { ?>
 <table id="tbl_pegawai_dlist" class="table ewTable">

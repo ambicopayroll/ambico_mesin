@@ -6,6 +6,7 @@ ob_start(); // Turn on output buffering
 <?php include_once ((EW_USE_ADODB) ? "adodb5/adodb.inc.php" : "ewmysql13.php") ?>
 <?php include_once "phpfn13.php" ?>
 <?php include_once "pegawai_dinfo.php" ?>
+<?php include_once "pegawaiinfo.php" ?>
 <?php include_once "t_userinfo.php" ?>
 <?php include_once "userfn13.php" ?>
 <?php
@@ -232,6 +233,9 @@ class cpegawai_d_edit extends cpegawai_d {
 			$GLOBALS["Table"] = &$GLOBALS["pegawai_d"];
 		}
 
+		// Table object (pegawai)
+		if (!isset($GLOBALS['pegawai'])) $GLOBALS['pegawai'] = new cpegawai();
+
 		// Table object (t_user)
 		if (!isset($GLOBALS['t_user'])) $GLOBALS['t_user'] = new ct_user();
 
@@ -398,6 +402,9 @@ class cpegawai_d_edit extends cpegawai_d {
 		if (@$_GET["pegawai_id"] <> "") {
 			$this->pegawai_id->setQueryStringValue($_GET["pegawai_id"]);
 		}
+
+		// Set up master detail parameters
+		$this->SetUpMasterParms();
 
 		// Process form if post back
 		if (@$_POST["a_edit"] <> "") {
@@ -989,6 +996,67 @@ class cpegawai_d_edit extends cpegawai_d {
 		return $EditRow;
 	}
 
+	// Set up master/detail based on QueryString
+	function SetUpMasterParms() {
+		$bValidMaster = FALSE;
+
+		// Get the keys for master table
+		if (isset($_GET[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_GET[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_GET["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setQueryStringValue($_GET["fk_pegawai_id"]);
+					$this->pegawai_id->setQueryStringValue($GLOBALS["pegawai"]->pegawai_id->QueryStringValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->QueryStringValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->QueryStringValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		} elseif (isset($_POST[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_POST[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_POST["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setFormValue($_POST["fk_pegawai_id"]);
+					$this->pegawai_id->setFormValue($GLOBALS["pegawai"]->pegawai_id->FormValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->FormValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->FormValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		}
+		if ($bValidMaster) {
+
+			// Save current master table
+			$this->setCurrentMasterTable($sMasterTblVar);
+			$this->setSessionWhere($this->GetDetailFilter());
+
+			// Reset start record counter (new master key)
+			$this->StartRec = 1;
+			$this->setStartRecordNumber($this->StartRec);
+
+			// Clear previous master key from Session
+			if ($sMasterTblVar <> "pegawai") {
+				if ($this->pegawai_id->CurrentValue == "") $this->pegawai_id->setSessionValue("");
+			}
+		}
+		$this->DbMasterFilter = $this->GetMasterFilter(); // Get master filter
+		$this->DbDetailFilter = $this->GetDetailFilter(); // Get detail filter
+	}
+
 	// Set up Breadcrumb
 	function SetupBreadcrumb() {
 		global $Breadcrumb, $Language;
@@ -1230,6 +1298,10 @@ $pegawai_d_edit->ShowMessage();
 <input type="hidden" name="a_edit" id="a_edit" value="U">
 <?php if ($pegawai_d_edit->IsModal) { ?>
 <input type="hidden" name="modal" value="1">
+<?php } ?>
+<?php if ($pegawai_d->getCurrentMasterTable() == "pegawai") { ?>
+<input type="hidden" name="<?php echo EW_TABLE_SHOW_MASTER ?>" value="pegawai">
+<input type="hidden" name="fk_pegawai_id" value="<?php echo $pegawai_d->pegawai_id->getSessionValue() ?>">
 <?php } ?>
 <div>
 <?php if ($pegawai_d->pegawai_id->Visible) { // pegawai_id ?>

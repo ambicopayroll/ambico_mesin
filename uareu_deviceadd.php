@@ -750,10 +750,6 @@ class cuareu_device_add extends cuareu_device {
 			$AddRow = $this->Insert($rsnew);
 			$conn->raiseErrorFn = '';
 			if ($AddRow) {
-
-				// Get insert id if necessary
-				$this->device_id->setDbValue($conn->Insert_ID());
-				$rsnew['device_id'] = $this->device_id->DbValue;
 			}
 		} else {
 			if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {

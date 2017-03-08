@@ -309,7 +309,10 @@ class csms_group_member extends cTable {
 	// Insert
 	function Insert(&$rs) {
 		$conn = &$this->Connection();
-		return $conn->Execute($this->InsertSQL($rs));
+		$bInsert = $conn->Execute($this->InsertSQL($rs));
+		if ($bInsert) {
+		}
+		return $bInsert;
 	}
 
 	// UPDATE statement
@@ -334,7 +337,8 @@ class csms_group_member extends cTable {
 	// Update
 	function Update(&$rs, $where = "", $rsold = NULL, $curfilter = TRUE) {
 		$conn = &$this->Connection();
-		return $conn->Execute($this->UpdateSQL($rs, $where, $curfilter));
+		$bUpdate = $conn->Execute($this->UpdateSQL($rs, $where, $curfilter));
+		return $bUpdate;
 	}
 
 	// DELETE statement
@@ -356,7 +360,8 @@ class csms_group_member extends cTable {
 	// Delete
 	function Delete(&$rs, $where = "", $curfilter = TRUE) {
 		$conn = &$this->Connection();
-		return $conn->Execute($this->DeleteSQL($rs, $where, $curfilter));
+		$bDelete = $conn->Execute($this->DeleteSQL($rs, $where, $curfilter));
+		return $bDelete;
 	}
 
 	// Key filter WHERE clause

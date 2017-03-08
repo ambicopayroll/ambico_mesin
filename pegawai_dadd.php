@@ -6,6 +6,7 @@ ob_start(); // Turn on output buffering
 <?php include_once ((EW_USE_ADODB) ? "adodb5/adodb.inc.php" : "ewmysql13.php") ?>
 <?php include_once "phpfn13.php" ?>
 <?php include_once "pegawai_dinfo.php" ?>
+<?php include_once "pegawaiinfo.php" ?>
 <?php include_once "t_userinfo.php" ?>
 <?php include_once "userfn13.php" ?>
 <?php
@@ -232,6 +233,9 @@ class cpegawai_d_add extends cpegawai_d {
 			$GLOBALS["Table"] = &$GLOBALS["pegawai_d"];
 		}
 
+		// Table object (pegawai)
+		if (!isset($GLOBALS['pegawai'])) $GLOBALS['pegawai'] = new cpegawai();
+
 		// Table object (t_user)
 		if (!isset($GLOBALS['t_user'])) $GLOBALS['t_user'] = new ct_user();
 
@@ -397,6 +401,9 @@ class cpegawai_d_add extends cpegawai_d {
 		$this->IsModal = (@$_GET["modal"] == "1" || @$_POST["modal"] == "1");
 		if ($this->IsModal)
 			$gbSkipHeaderFooter = TRUE;
+
+		// Set up master/detail parameters
+		$this->SetUpMasterParms();
 
 		// Process form if post back
 		if (@$_POST["a_add"] <> "") {
@@ -747,8 +754,14 @@ class cpegawai_d_add extends cpegawai_d {
 			// pegawai_id
 			$this->pegawai_id->EditAttrs["class"] = "form-control";
 			$this->pegawai_id->EditCustomAttributes = "";
+			if ($this->pegawai_id->getSessionValue() <> "") {
+				$this->pegawai_id->CurrentValue = $this->pegawai_id->getSessionValue();
+			$this->pegawai_id->ViewValue = $this->pegawai_id->CurrentValue;
+			$this->pegawai_id->ViewCustomAttributes = "";
+			} else {
 			$this->pegawai_id->EditValue = ew_HtmlEncode($this->pegawai_id->CurrentValue);
 			$this->pegawai_id->PlaceHolder = ew_RemoveHtml($this->pegawai_id->FldCaption());
+			}
 
 			// pend_id
 			$this->pend_id->EditAttrs["class"] = "form-control";
@@ -1017,6 +1030,66 @@ class cpegawai_d_add extends cpegawai_d {
 		return $AddRow;
 	}
 
+	// Set up master/detail based on QueryString
+	function SetUpMasterParms() {
+		$bValidMaster = FALSE;
+
+		// Get the keys for master table
+		if (isset($_GET[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_GET[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_GET["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setQueryStringValue($_GET["fk_pegawai_id"]);
+					$this->pegawai_id->setQueryStringValue($GLOBALS["pegawai"]->pegawai_id->QueryStringValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->QueryStringValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->QueryStringValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		} elseif (isset($_POST[EW_TABLE_SHOW_MASTER])) {
+			$sMasterTblVar = $_POST[EW_TABLE_SHOW_MASTER];
+			if ($sMasterTblVar == "") {
+				$bValidMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($sMasterTblVar == "pegawai") {
+				$bValidMaster = TRUE;
+				if (@$_POST["fk_pegawai_id"] <> "") {
+					$GLOBALS["pegawai"]->pegawai_id->setFormValue($_POST["fk_pegawai_id"]);
+					$this->pegawai_id->setFormValue($GLOBALS["pegawai"]->pegawai_id->FormValue);
+					$this->pegawai_id->setSessionValue($this->pegawai_id->FormValue);
+					if (!is_numeric($GLOBALS["pegawai"]->pegawai_id->FormValue)) $bValidMaster = FALSE;
+				} else {
+					$bValidMaster = FALSE;
+				}
+			}
+		}
+		if ($bValidMaster) {
+
+			// Save current master table
+			$this->setCurrentMasterTable($sMasterTblVar);
+
+			// Reset start record counter (new master key)
+			$this->StartRec = 1;
+			$this->setStartRecordNumber($this->StartRec);
+
+			// Clear previous master key from Session
+			if ($sMasterTblVar <> "pegawai") {
+				if ($this->pegawai_id->CurrentValue == "") $this->pegawai_id->setSessionValue("");
+			}
+		}
+		$this->DbMasterFilter = $this->GetMasterFilter(); // Get master filter
+		$this->DbDetailFilter = $this->GetDetailFilter(); // Get detail filter
+	}
+
 	// Set up Breadcrumb
 	function SetupBreadcrumb() {
 		global $Breadcrumb, $Language;
@@ -1259,14 +1332,26 @@ $pegawai_d_add->ShowMessage();
 <?php if ($pegawai_d_add->IsModal) { ?>
 <input type="hidden" name="modal" value="1">
 <?php } ?>
+<?php if ($pegawai_d->getCurrentMasterTable() == "pegawai") { ?>
+<input type="hidden" name="<?php echo EW_TABLE_SHOW_MASTER ?>" value="pegawai">
+<input type="hidden" name="fk_pegawai_id" value="<?php echo $pegawai_d->pegawai_id->getSessionValue() ?>">
+<?php } ?>
 <div>
 <?php if ($pegawai_d->pegawai_id->Visible) { // pegawai_id ?>
 	<div id="r_pegawai_id" class="form-group">
 		<label id="elh_pegawai_d_pegawai_id" for="x_pegawai_id" class="col-sm-2 control-label ewLabel"><?php echo $pegawai_d->pegawai_id->FldCaption() ?><?php echo $Language->Phrase("FieldRequiredIndicator") ?></label>
 		<div class="col-sm-10"><div<?php echo $pegawai_d->pegawai_id->CellAttributes() ?>>
+<?php if ($pegawai_d->pegawai_id->getSessionValue() <> "") { ?>
+<span id="el_pegawai_d_pegawai_id">
+<span<?php echo $pegawai_d->pegawai_id->ViewAttributes() ?>>
+<p class="form-control-static"><?php echo $pegawai_d->pegawai_id->ViewValue ?></p></span>
+</span>
+<input type="hidden" id="x_pegawai_id" name="x_pegawai_id" value="<?php echo ew_HtmlEncode($pegawai_d->pegawai_id->CurrentValue) ?>">
+<?php } else { ?>
 <span id="el_pegawai_d_pegawai_id">
 <input type="text" data-table="pegawai_d" data-field="x_pegawai_id" name="x_pegawai_id" id="x_pegawai_id" size="30" placeholder="<?php echo ew_HtmlEncode($pegawai_d->pegawai_id->getPlaceHolder()) ?>" value="<?php echo $pegawai_d->pegawai_id->EditValue ?>"<?php echo $pegawai_d->pegawai_id->EditAttributes() ?>>
 </span>
+<?php } ?>
 <?php echo $pegawai_d->pegawai_id->CustomMsg ?></div></div>
 	</div>
 <?php } ?>

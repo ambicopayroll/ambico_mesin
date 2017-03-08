@@ -763,10 +763,6 @@ class ct_user_add extends ct_user {
 			$AddRow = $this->Insert($rsnew);
 			$conn->raiseErrorFn = '';
 			if ($AddRow) {
-
-				// Get insert id if necessary
-				$this->user_id->setDbValue($conn->Insert_ID());
-				$rsnew['user_id'] = $this->user_id->DbValue;
 			}
 		} else {
 			if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {

@@ -919,10 +919,6 @@ class caudittrail_add extends caudittrail {
 			$AddRow = $this->Insert($rsnew);
 			$conn->raiseErrorFn = '';
 			if ($AddRow) {
-
-				// Get insert id if necessary
-				$this->id->setDbValue($conn->Insert_ID());
-				$rsnew['id'] = $this->id->DbValue;
 			}
 		} else {
 			if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {

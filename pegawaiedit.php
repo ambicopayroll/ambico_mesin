@@ -7,6 +7,7 @@ ob_start(); // Turn on output buffering
 <?php include_once "phpfn13.php" ?>
 <?php include_once "pegawaiinfo.php" ?>
 <?php include_once "t_userinfo.php" ?>
+<?php include_once "pegawai_dgridcls.php" ?>
 <?php include_once "userfn13.php" ?>
 <?php
 
@@ -324,6 +325,14 @@ class cpegawai_edit extends cpegawai {
 
 		// Process auto fill
 		if (@$_POST["ajax"] == "autofill") {
+
+			// Process auto fill for detail table 'pegawai_d'
+			if (@$_POST["grid"] == "fpegawai_dgrid") {
+				if (!isset($GLOBALS["pegawai_d_grid"])) $GLOBALS["pegawai_d_grid"] = new cpegawai_d_grid;
+				$GLOBALS["pegawai_d_grid"]->Page_Init();
+				$this->Page_Terminate();
+				exit();
+			}
 			$results = $this->GetAutoFill(@$_POST["name"], @$_POST["q"]);
 			if ($results) {
 
@@ -416,6 +425,9 @@ class cpegawai_edit extends cpegawai {
 		if (@$_POST["a_edit"] <> "") {
 			$this->CurrentAction = $_POST["a_edit"]; // Get action code
 			$this->LoadFormValues(); // Get form values
+
+			// Set up detail parameters
+			$this->SetUpDetailParms();
 		} else {
 			$this->CurrentAction = "I"; // Default action is display
 		}
@@ -440,9 +452,15 @@ class cpegawai_edit extends cpegawai {
 					if ($this->getFailureMessage() == "") $this->setFailureMessage($Language->Phrase("NoRecord")); // No record found
 					$this->Page_Terminate("pegawailist.php"); // No matching record, return to list
 				}
+
+				// Set up detail parameters
+				$this->SetUpDetailParms();
 				break;
 			Case "U": // Update
-				$sReturnUrl = $this->getReturnUrl();
+				if ($this->getCurrentDetailTable() <> "") // Master/detail edit
+					$sReturnUrl = $this->GetViewUrl(EW_TABLE_SHOW_DETAIL . "=" . $this->getCurrentDetailTable()); // Master/Detail view page
+				else
+					$sReturnUrl = $this->getReturnUrl();
 				if (ew_GetPageName($sReturnUrl) == "pegawailist.php")
 					$sReturnUrl = $this->AddMasterUrl($sReturnUrl); // List page, return to list page with correct master key if necessary
 				$this->SendEmail = TRUE; // Send email on update success
@@ -455,6 +473,9 @@ class cpegawai_edit extends cpegawai {
 				} else {
 					$this->EventCancelled = TRUE; // Event cancelled
 					$this->RestoreFormValues(); // Restore form values if update failed
+
+					// Set up detail parameters
+					$this->SetUpDetailParms();
 				}
 		}
 
@@ -1262,6 +1283,13 @@ class cpegawai_edit extends cpegawai {
 			ew_AddMessage($gsFormError, $this->tgl_masuk_pertama->FldErrMsg());
 		}
 
+		// Validate detail grid
+		$DetailTblVar = explode(",", $this->getCurrentDetailTable());
+		if (in_array("pegawai_d", $DetailTblVar) && $GLOBALS["pegawai_d"]->DetailEdit) {
+			if (!isset($GLOBALS["pegawai_d_grid"])) $GLOBALS["pegawai_d_grid"] = new cpegawai_d_grid(); // get detail page object
+			$GLOBALS["pegawai_d_grid"]->ValidateGridForm();
+		}
+
 		// Return validate result
 		$ValidateForm = ($gsFormError == "");
 
@@ -1310,6 +1338,10 @@ class cpegawai_edit extends cpegawai {
 			$this->setFailureMessage($Language->Phrase("NoRecord")); // Set no record message
 			$EditRow = FALSE; // Update Failed
 		} else {
+
+			// Begin transaction
+			if ($this->getCurrentDetailTable() <> "")
+				$conn->BeginTrans();
 
 			// Save old values
 			$rsold = &$rs->fields;
@@ -1395,6 +1427,26 @@ class cpegawai_edit extends cpegawai {
 				$conn->raiseErrorFn = '';
 				if ($EditRow) {
 				}
+
+				// Update detail records
+				$DetailTblVar = explode(",", $this->getCurrentDetailTable());
+				if ($EditRow) {
+					if (in_array("pegawai_d", $DetailTblVar) && $GLOBALS["pegawai_d"]->DetailEdit) {
+						if (!isset($GLOBALS["pegawai_d_grid"])) $GLOBALS["pegawai_d_grid"] = new cpegawai_d_grid(); // Get detail page object
+						$Security->LoadCurrentUserLevel($this->ProjectID . "pegawai_d"); // Load user level of detail table
+						$EditRow = $GLOBALS["pegawai_d_grid"]->GridUpdate();
+						$Security->LoadCurrentUserLevel($this->ProjectID . $this->TableName); // Restore user level of master table
+					}
+				}
+
+				// Commit/Rollback transaction
+				if ($this->getCurrentDetailTable() <> "") {
+					if ($EditRow) {
+						$conn->CommitTrans(); // Commit transaction
+					} else {
+						$conn->RollbackTrans(); // Rollback transaction
+					}
+				}
 			} else {
 				if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {
 
@@ -1414,6 +1466,36 @@ class cpegawai_edit extends cpegawai {
 			$this->Row_Updated($rsold, $rsnew);
 		$rs->Close();
 		return $EditRow;
+	}
+
+	// Set up detail parms based on QueryString
+	function SetUpDetailParms() {
+
+		// Get the keys for master table
+		if (isset($_GET[EW_TABLE_SHOW_DETAIL])) {
+			$sDetailTblVar = $_GET[EW_TABLE_SHOW_DETAIL];
+			$this->setCurrentDetailTable($sDetailTblVar);
+		} else {
+			$sDetailTblVar = $this->getCurrentDetailTable();
+		}
+		if ($sDetailTblVar <> "") {
+			$DetailTblVar = explode(",", $sDetailTblVar);
+			if (in_array("pegawai_d", $DetailTblVar)) {
+				if (!isset($GLOBALS["pegawai_d_grid"]))
+					$GLOBALS["pegawai_d_grid"] = new cpegawai_d_grid;
+				if ($GLOBALS["pegawai_d_grid"]->DetailEdit) {
+					$GLOBALS["pegawai_d_grid"]->CurrentMode = "edit";
+					$GLOBALS["pegawai_d_grid"]->CurrentAction = "gridedit";
+
+					// Save current master table to detail table
+					$GLOBALS["pegawai_d_grid"]->setCurrentMasterTable($this->TableVar);
+					$GLOBALS["pegawai_d_grid"]->setStartRecordNumber(1);
+					$GLOBALS["pegawai_d_grid"]->pegawai_id->FldIsDetailKey = TRUE;
+					$GLOBALS["pegawai_d_grid"]->pegawai_id->CurrentValue = $this->pegawai_id->CurrentValue;
+					$GLOBALS["pegawai_d_grid"]->pegawai_id->setSessionValue($GLOBALS["pegawai_d_grid"]->pegawai_id->CurrentValue);
+				}
+			}
+		}
 	}
 
 	// Set up Breadcrumb
@@ -1898,6 +1980,14 @@ $pegawai_edit->ShowMessage();
 	</div>
 <?php } ?>
 </div>
+<?php
+	if (in_array("pegawai_d", explode(",", $pegawai->getCurrentDetailTable())) && $pegawai_d->DetailEdit) {
+?>
+<?php if ($pegawai->getCurrentDetailTable() <> "") { ?>
+<h4 class="ewDetailCaption"><?php echo $Language->TablePhrase("pegawai_d", "TblCaption") ?></h4>
+<?php } ?>
+<?php include_once "pegawai_dgrid.php" ?>
+<?php } ?>
 <?php if (!$pegawai_edit->IsModal) { ?>
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10">

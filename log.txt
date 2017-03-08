@@ -1,0 +1,8 @@
+1:43 AM 3/9/2017
+tambah tabel t_tang
+
+tr_xx = tabel referensi
+tm_xx = tabel master
+
+kary koneksi dengan jabatan = jab
+kary koneksi dengan status  = stat

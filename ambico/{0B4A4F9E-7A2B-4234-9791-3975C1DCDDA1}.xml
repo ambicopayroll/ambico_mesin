@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration date="2017/03/08" author="e.World Technology Ltd.">
-  <project id="{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}" file="D:\xampp\htdocs\ambico\ambico.pmp" name="ambico" product="PHPMaker" version="13.0" datetime="2017/03/08 16:04:01" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+<configuration date="2017/03/09" author="e.World Technology Ltd.">
+  <project id="{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}" file="D:\xampp\htdocs\ambico\ambico.pmp" name="ambico" product="PHPMaker" version="13.0" datetime="2017/03/09 02:14:23" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
     <table id="att_log" name="att_log" caption="att log" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="cuti_normatif" name="cuti_normatif" caption="cuti normatif" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="dev_type" name="dev_type" caption="dev type" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
@@ -29,8 +29,8 @@
     <table id="kontrak_kerja" name="kontrak_kerja" caption="kontrak kerja" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="lembur" name="lembur" caption="lembur" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="libur" name="libur" caption="libur" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="pegawai" name="pegawai" caption="pegawai" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="pegawai_d" name="pegawai_d" caption="pegawai d" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="pegawai" name="pegawai" caption="Data Karyawan" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="pegawai_d" name="pegawai_d" caption="Data Karyawan Detail" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="pembagian1" name="pembagian1" caption="pembagian 1" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="pembagian2" name="pembagian2" caption="pembagian 2" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="pembagian3" name="pembagian3" caption="pembagian 3" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />

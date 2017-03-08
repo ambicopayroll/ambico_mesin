@@ -4,7 +4,25 @@
 // Generate all menu items
 $RootMenu->IsRoot = TRUE;
 $RootMenu->AddMenuItem(63, "mmi_dashboard_php", $Language->MenuPhrase("63", "MenuText"), "dashboard.php", -1, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}dashboard.php'), FALSE, TRUE);
-$RootMenu->AddMenuItem(128, "mmci_Absensi", $Language->MenuPhrase("128", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(299, "mmci_Karyawan", $Language->MenuPhrase("299", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(29, "mmi_pegawai", $Language->MenuPhrase("29", "MenuText"), "pegawailist.php", 299, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}pegawai'), FALSE, FALSE);
+$RootMenu->AddMenuItem(30, "mmi_pegawai_d", $Language->MenuPhrase("30", "MenuText"), "pegawai_dlist.php?cmd=resetall", 299, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}pegawai_d'), FALSE, FALSE);
+$RootMenu->AddMenuItem(300, "mmci_Laporan", $Language->MenuPhrase("300", "MenuText"), "", 299, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(301, "mmci_Tabel_Referensi", $Language->MenuPhrase("301", "MenuText"), "", 299, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(302, "mmci_Absensi", $Language->MenuPhrase("302", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(303, "mmci_Laporan", $Language->MenuPhrase("303", "MenuText"), "", 302, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(304, "mmci_Tabel_Referensi", $Language->MenuPhrase("304", "MenuText"), "", 302, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(305, "mmci_Lembur", $Language->MenuPhrase("305", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(306, "mmci_Cuti", $Language->MenuPhrase("306", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(307, "mmci_Laporan", $Language->MenuPhrase("307", "MenuText"), "", 306, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(308, "mmci_Tabel_Referensi", $Language->MenuPhrase("308", "MenuText"), "", 306, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(309, "mmci_Perusahaan", $Language->MenuPhrase("309", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(310, "mmci_Payroll", $Language->MenuPhrase("310", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(311, "mmci_Bulanan", $Language->MenuPhrase("311", "MenuText"), "", 310, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(313, "mmci_Koreksi_Penggajian", $Language->MenuPhrase("313", "MenuText"), "", 311, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(312, "mmci_Tahunan", $Language->MenuPhrase("312", "MenuText"), "", 310, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(314, "mmci_Utilitas", $Language->MenuPhrase("314", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(315, "mmci_Bantuan", $Language->MenuPhrase("315", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(233, "mmci_Pengaturan", $Language->MenuPhrase("233", "MenuText"), "", 128, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(19, "mmi_jam_kerja_extra", $Language->MenuPhrase("19", "MenuText"), "jam_kerja_extralist.php", 233, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}jam_kerja_extra'), FALSE, FALSE);
 $RootMenu->AddMenuItem(31, "mmi_pembagian1", $Language->MenuPhrase("31", "MenuText"), "pembagian1list.php", 233, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}pembagian1'), FALSE, FALSE);
@@ -17,8 +35,6 @@ $RootMenu->AddMenuItem(14, "mmi_grp_user_m", $Language->MenuPhrase("14", "MenuTe
 $RootMenu->AddMenuItem(15, "mmi_index_ot", $Language->MenuPhrase("15", "MenuText"), "index_otlist.php", 233, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}index_ot'), FALSE, FALSE);
 $RootMenu->AddMenuItem(16, "mmi_index_type", $Language->MenuPhrase("16", "MenuText"), "index_typelist.php", 233, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}index_type'), FALSE, FALSE);
 $RootMenu->AddMenuItem(64, "mmci_Master", $Language->MenuPhrase("64", "MenuText"), "", 128, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(29, "mmi_pegawai", $Language->MenuPhrase("29", "MenuText"), "pegawailist.php", 64, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}pegawai'), FALSE, FALSE);
-$RootMenu->AddMenuItem(30, "mmi_pegawai_d", $Language->MenuPhrase("30", "MenuText"), "pegawai_dlist.php", 64, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}pegawai_d'), FALSE, FALSE);
 $RootMenu->AddMenuItem(22, "mmi_jdw_kerja_m", $Language->MenuPhrase("22", "MenuText"), "jdw_kerja_mlist.php", 64, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}jdw_kerja_m'), FALSE, FALSE);
 $RootMenu->AddMenuItem(21, "mmi_jdw_kerja_d", $Language->MenuPhrase("21", "MenuText"), "jdw_kerja_dlist.php", 64, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}jdw_kerja_d'), FALSE, FALSE);
 $RootMenu->AddMenuItem(23, "mmi_jdw_kerja_pegawai", $Language->MenuPhrase("23", "MenuText"), "jdw_kerja_pegawailist.php", 64, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}jdw_kerja_pegawai'), FALSE, FALSE);
@@ -41,7 +57,6 @@ $RootMenu->AddMenuItem(11, "mmi_ganti_jk_pegawai", $Language->MenuPhrase("11", "
 $RootMenu->AddMenuItem(12, "mmi_ganti_jk_pembagian", $Language->MenuPhrase("12", "MenuText"), "ganti_jk_pembagianlist.php", 127, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}ganti_jk_pembagian'), FALSE, FALSE);
 $RootMenu->AddMenuItem(43, "mmi_tukar_jam", $Language->MenuPhrase("43", "MenuText"), "tukar_jamlist.php", 127, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}tukar_jam'), FALSE, FALSE);
 $RootMenu->AddMenuItem(27, "mmi_lembur", $Language->MenuPhrase("27", "MenuText"), "lemburlist.php", 127, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}lembur'), FALSE, FALSE);
-$RootMenu->AddMenuItem(129, "mmci_Payroll", $Language->MenuPhrase("129", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(2, "mmi_cuti_normatif", $Language->MenuPhrase("2", "MenuText"), "cuti_normatiflist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}cuti_normatif'), FALSE, FALSE);
 $RootMenu->AddMenuItem(48, "mmi_z_pay_com", $Language->MenuPhrase("48", "MenuText"), "z_pay_comlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_com'), FALSE, FALSE);
 $RootMenu->AddMenuItem(49, "mmi_z_pay_grp", $Language->MenuPhrase("49", "MenuText"), "z_pay_grplist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_grp'), FALSE, FALSE);
@@ -56,7 +71,6 @@ $RootMenu->AddMenuItem(57, "mmi_zx_bayar_kredit", $Language->MenuPhrase("57", "M
 $RootMenu->AddMenuItem(56, "mmi_z_pay_report", $Language->MenuPhrase("56", "MenuText"), "z_pay_reportlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_report'), FALSE, FALSE);
 $RootMenu->AddMenuItem(55, "mmi_z_pay_process_sd", $Language->MenuPhrase("55", "MenuText"), "z_pay_process_sdlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_process_sd'), FALSE, FALSE);
 $RootMenu->AddMenuItem(54, "mmi_z_pay_process_m", $Language->MenuPhrase("54", "MenuText"), "z_pay_process_mlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_process_m'), FALSE, FALSE);
-$RootMenu->AddMenuItem(194, "mmci_Utilitas", $Language->MenuPhrase("194", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(61, "mmi_t_user", $Language->MenuPhrase("61", "MenuText"), "t_userlist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}t_user'), FALSE, FALSE);
 $RootMenu->AddMenuItem(62, "mmi_audittrail", $Language->MenuPhrase("62", "MenuText"), "audittraillist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}audittrail'), FALSE, FALSE);
 $RootMenu->AddMenuItem(45, "mmi_user_log", $Language->MenuPhrase("45", "MenuText"), "user_loglist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}user_log'), FALSE, FALSE);

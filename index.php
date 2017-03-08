@@ -266,8 +266,10 @@ class cdefault {
 			$this->setFailureMessage($Language->Phrase("SessionExpired"));
 		if (!$Security->IsLoggedIn()) $Security->AutoLogin();
 		$Security->LoadUserLevel(); // Load User Level
+		if ($Security->AllowList(CurrentProjectID() . 'dashboard.php'))
+		$this->Page_Terminate("dashboard.php"); // Exit and go to default page
 		if ($Security->AllowList(CurrentProjectID() . 'att_log'))
-		$this->Page_Terminate("att_loglist.php"); // Exit and go to default page
+			$this->Page_Terminate("att_loglist.php");
 		if ($Security->AllowList(CurrentProjectID() . 'cuti_normatif'))
 			$this->Page_Terminate("cuti_normatiflist.php");
 		if ($Security->AllowList(CurrentProjectID() . 'dev_type'))
@@ -390,8 +392,6 @@ class cdefault {
 			$this->Page_Terminate("t_userlist.php");
 		if ($Security->AllowList(CurrentProjectID() . 'audittrail'))
 			$this->Page_Terminate("audittraillist.php");
-		if ($Security->AllowList(CurrentProjectID() . 'dashboard.php'))
-			$this->Page_Terminate("dashboard.php");
 		if ($Security->IsLoggedIn()) {
 			$this->setFailureMessage(ew_DeniedMsg() . "<br><br><a href=\"logout.php\">" . $Language->Phrase("BackToLogin") . "</a>");
 		} else {

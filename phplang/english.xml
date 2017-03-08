@@ -748,9 +748,6 @@
     <menu id="194">
       <phrase id="menutext" value="Utilitas" />
     </menu>
-    <menu id="47">
-      <phrase id="menutext" value="versi db" />
-    </menu>
     <menu id="61">
       <phrase id="menutext" value="t user" />
     </menu>
@@ -762,6 +759,9 @@
     </menu>
     <menu id="46">
       <phrase id="menutext" value="user login" />
+    </menu>
+    <menu id="47">
+      <phrase id="menutext" value="versi db" />
     </menu>
     <menu id="35">
       <phrase id="menutext" value="setting" />

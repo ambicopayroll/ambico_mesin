@@ -58,13 +58,10 @@ $RootMenu->AddMenuItem(56, "mi_z_pay_report", $Language->MenuPhrase("56", "MenuT
 $RootMenu->AddMenuItem(55, "mi_z_pay_process_sd", $Language->MenuPhrase("55", "MenuText"), "z_pay_process_sdlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_process_sd'), FALSE, FALSE);
 $RootMenu->AddMenuItem(54, "mi_z_pay_process_m", $Language->MenuPhrase("54", "MenuText"), "z_pay_process_mlist.php", 129, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}z_pay_process_m'), FALSE, FALSE);
 $RootMenu->AddMenuItem(194, "mci_Utilitas", $Language->MenuPhrase("194", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(47, "mi_versi_db", $Language->MenuPhrase("47", "MenuText"), "versi_dblist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}versi_db'), FALSE, FALSE);
 $RootMenu->AddMenuItem(61, "mi_t_user", $Language->MenuPhrase("61", "MenuText"), "t_userlist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}t_user'), FALSE, FALSE);
 $RootMenu->AddMenuItem(62, "mi_audittrail", $Language->MenuPhrase("62", "MenuText"), "audittraillist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}audittrail'), FALSE, FALSE);
 $RootMenu->AddMenuItem(45, "mi_user_log", $Language->MenuPhrase("45", "MenuText"), "user_loglist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}user_log'), FALSE, FALSE);
 $RootMenu->AddMenuItem(46, "mi_user_login", $Language->MenuPhrase("46", "MenuText"), "user_loginlist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}user_login'), FALSE, FALSE);
-$RootMenu->AddMenuItem(35, "mi_setting", $Language->MenuPhrase("35", "MenuText"), "settinglist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}setting'), FALSE, FALSE);
-$RootMenu->AddMenuItem(4, "mi_device", $Language->MenuPhrase("4", "MenuText"), "devicelist.php", 194, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}device'), FALSE, FALSE);
 $RootMenu->AddMenuItem(-2, "mi_changepwd", $Language->Phrase("ChangePwd"), "changepwd.php", -1, "", IsLoggedIn() && !IsSysAdmin());
 $RootMenu->AddMenuItem(-1, "mi_logout", $Language->Phrase("Logout"), "logout.php", -1, "", IsLoggedIn());
 $RootMenu->AddMenuItem(-1, "mi_login", $Language->Phrase("Login"), "login.php", -1, "", !IsLoggedIn() && substr(@$_SERVER["URL"], -1 * strlen("login.php")) <> "login.php");

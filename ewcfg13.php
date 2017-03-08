@@ -25,7 +25,7 @@ define("EW_CONFIG_FILE_FOLDER", EW_PROJECT_NAME, TRUE); // Config file name
 define("EW_PROJECT_ID", "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}", TRUE); // Project ID (GUID)
 $EW_RELATED_PROJECT_ID = "";
 $EW_RELATED_LANGUAGE_FOLDER = "";
-define("EW_RANDOM_KEY", '5ukZqoqInnOScBtf', TRUE); // Random key for encryption
+define("EW_RANDOM_KEY", 'yV80T1omoI4OqmzZ', TRUE); // Random key for encryption
 define("EW_PROJECT_STYLESHEET_FILENAME", "phpcss/ambico.css", TRUE); // Project stylesheet file name
 define("EW_CHARSET", "", TRUE); // Project charset
 define("EW_EMAIL_CHARSET", EW_CHARSET, TRUE); // Email charset

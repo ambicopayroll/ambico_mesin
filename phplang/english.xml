@@ -586,6 +586,9 @@
     <menu id="63">
       <phrase id="menutext" value="Dashboard" />
     </menu>
+    <menu id="3">
+      <phrase id="menutext" value="dev type" />
+    </menu>
     <menu id="128">
       <phrase id="menutext" value="Absensi" />
     </menu>
@@ -594,6 +597,33 @@
     </menu>
     <menu id="19">
       <phrase id="menutext" value="jam kerja extra" />
+    </menu>
+    <menu id="31">
+      <phrase id="menutext" value="pembagian 1" />
+    </menu>
+    <menu id="32">
+      <phrase id="menutext" value="pembagian 2" />
+    </menu>
+    <menu id="33">
+      <phrase id="menutext" value="pembagian 3" />
+    </menu>
+    <menu id="36">
+      <phrase id="menutext" value="shift result" />
+    </menu>
+    <menu id="25">
+      <phrase id="menutext" value="kategori izin" />
+    </menu>
+    <menu id="13">
+      <phrase id="menutext" value="grp user d" />
+    </menu>
+    <menu id="14">
+      <phrase id="menutext" value="grp user m" />
+    </menu>
+    <menu id="15">
+      <phrase id="menutext" value="index ot" />
+    </menu>
+    <menu id="16">
+      <phrase id="menutext" value="index type" />
     </menu>
     <menu id="64">
       <phrase id="menutext" value="Master" />
@@ -636,6 +666,9 @@
     </menu>
     <menu id="127">
       <phrase id="menutext" value="Proses" />
+    </menu>
+    <menu id="1">
+      <phrase id="menutext" value="att log" />
     </menu>
     <menu id="6">
       <phrase id="menutext" value="ganti jdw jk" />
@@ -735,42 +768,6 @@
     </menu>
     <menu id="4">
       <phrase id="menutext" value="device" />
-    </menu>
-    <menu id="234">
-      <phrase id="menutext" value="Lain-lain" />
-    </menu>
-    <menu id="1">
-      <phrase id="menutext" value="att log" />
-    </menu>
-    <menu id="3">
-      <phrase id="menutext" value="dev type" />
-    </menu>
-    <menu id="13">
-      <phrase id="menutext" value="grp user d" />
-    </menu>
-    <menu id="14">
-      <phrase id="menutext" value="grp user m" />
-    </menu>
-    <menu id="15">
-      <phrase id="menutext" value="index ot" />
-    </menu>
-    <menu id="16">
-      <phrase id="menutext" value="index type" />
-    </menu>
-    <menu id="25">
-      <phrase id="menutext" value="kategori izin" />
-    </menu>
-    <menu id="31">
-      <phrase id="menutext" value="pembagian 1" />
-    </menu>
-    <menu id="32">
-      <phrase id="menutext" value="pembagian 2" />
-    </menu>
-    <menu id="33">
-      <phrase id="menutext" value="pembagian 3" />
-    </menu>
-    <menu id="36">
-      <phrase id="menutext" value="shift result" />
     </menu>
     <menu id="37">
       <phrase id="menutext" value="sms group" />

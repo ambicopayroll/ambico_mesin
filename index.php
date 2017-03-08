@@ -21,7 +21,7 @@ class cdefault {
 	var $PageID = 'default';
 
 	// Project ID
-	var $ProjectID = "{F36F5C9B-7A33-450D-8126-2253575B79B0}";
+	var $ProjectID = "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}";
 
 	// Page object name
 	var $PageObjName = 'default';
@@ -266,10 +266,8 @@ class cdefault {
 			$this->setFailureMessage($Language->Phrase("SessionExpired"));
 		if (!$Security->IsLoggedIn()) $Security->AutoLogin();
 		$Security->LoadUserLevel(); // Load User Level
-		if ($Security->AllowList(CurrentProjectID() . 'dashboard.php'))
-		$this->Page_Terminate("dashboard.php"); // Exit and go to default page
 		if ($Security->AllowList(CurrentProjectID() . 'att_log'))
-			$this->Page_Terminate("att_loglist.php");
+		$this->Page_Terminate("att_loglist.php"); // Exit and go to default page
 		if ($Security->AllowList(CurrentProjectID() . 'cuti_normatif'))
 			$this->Page_Terminate("cuti_normatiflist.php");
 		if ($Security->AllowList(CurrentProjectID() . 'dev_type'))
@@ -388,6 +386,12 @@ class cdefault {
 			$this->Page_Terminate("zx_kredit_dlist.php");
 		if ($Security->AllowList(CurrentProjectID() . 'zx_kredit_m'))
 			$this->Page_Terminate("zx_kredit_mlist.php");
+		if ($Security->AllowList(CurrentProjectID() . 't_user'))
+			$this->Page_Terminate("t_userlist.php");
+		if ($Security->AllowList(CurrentProjectID() . 'audittrail'))
+			$this->Page_Terminate("audittraillist.php");
+		if ($Security->AllowList(CurrentProjectID() . 'dashboard.php'))
+			$this->Page_Terminate("dashboard.php");
 		if ($Security->IsLoggedIn()) {
 			$this->setFailureMessage(ew_DeniedMsg() . "<br><br><a href=\"logout.php\">" . $Language->Phrase("BackToLogin") . "</a>");
 		} else {

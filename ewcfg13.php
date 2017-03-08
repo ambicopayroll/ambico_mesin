@@ -22,10 +22,10 @@ $EW_ROOT_RELATIVE_PATH = "."; // Relative path of app root
 define("EW_UNFORMAT_YEAR", 50, TRUE); // Unformat year
 define("EW_PROJECT_NAME", "ambico", TRUE); // Project name
 define("EW_CONFIG_FILE_FOLDER", EW_PROJECT_NAME, TRUE); // Config file name
-define("EW_PROJECT_ID", "{F36F5C9B-7A33-450D-8126-2253575B79B0}", TRUE); // Project ID (GUID)
+define("EW_PROJECT_ID", "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}", TRUE); // Project ID (GUID)
 $EW_RELATED_PROJECT_ID = "";
 $EW_RELATED_LANGUAGE_FOLDER = "";
-define("EW_RANDOM_KEY", 'ejOxsGnAincRIiMp', TRUE); // Random key for encryption
+define("EW_RANDOM_KEY", 'hCiktj0LjagOH1U8', TRUE); // Random key for encryption
 define("EW_PROJECT_STYLESHEET_FILENAME", "phpcss/ambico.css", TRUE); // Project stylesheet file name
 define("EW_CHARSET", "", TRUE); // Project charset
 define("EW_EMAIL_CHARSET", EW_CHARSET, TRUE); // Email charset
@@ -35,7 +35,7 @@ define("EW_HIGHLIGHT_COMPARE", TRUE, TRUE); // Highlight compare mode, TRUE(case
 if (!function_exists('xml_parser_create') && !class_exists("DOMDocument")) die("This script requires PHP XML Parser or DOM.");
 define('EW_USE_DOM_XML', ((!function_exists('xml_parser_create') && class_exists("DOMDocument")) || FALSE), TRUE);
 if (!isset($ADODB_OUTP)) $ADODB_OUTP = 'ew_SetDebugMsg';
-define("EW_FONT_SIZE", 10, TRUE);
+define("EW_FONT_SIZE", 11, TRUE);
 define("EW_TMP_IMAGE_FONT", "DejaVuSans", TRUE); // Font for temp files
 
 // Set up font path
@@ -251,7 +251,7 @@ define("EW_USER_ID_ALLOW", 104, TRUE);
 define("EW_USER_TABLE_DBID", "DB", TRUE);
 define("EW_USER_TABLE", "`t_user`", TRUE);
 define("EW_USER_NAME_FILTER", "(`username` = '%u')", TRUE);
-define("EW_USER_ID_FILTER", "(`userlevel` = %u)", TRUE);
+define("EW_USER_ID_FILTER", "(`user_id` = %u)", TRUE);
 define("EW_USER_EMAIL_FILTER", "", TRUE);
 define("EW_USER_ACTIVATE_FILTER", "", TRUE);
 

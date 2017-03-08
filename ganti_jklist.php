@@ -22,7 +22,7 @@ class cganti_jk_list extends cganti_jk {
 	var $PageID = 'list';
 
 	// Project ID
-	var $ProjectID = "{F36F5C9B-7A33-450D-8126-2253575B79B0}";
+	var $ProjectID = "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}";
 
 	// Table name
 	var $TableName = 'ganti_jk';
@@ -1119,7 +1119,7 @@ class cganti_jk_list extends cganti_jk {
 		$this->ListOptions->UseImageAndText = TRUE;
 		$this->ListOptions->UseDropDownButton = FALSE;
 		$this->ListOptions->DropDownButtonPhrase = $Language->Phrase("ButtonListOptions");
-		$this->ListOptions->UseButtonGroup = TRUE;
+		$this->ListOptions->UseButtonGroup = FALSE;
 		if ($this->ListOptions->UseButtonGroup && ew_IsMobile())
 			$this->ListOptions->UseDropDownButton = TRUE;
 		$this->ListOptions->ButtonClass = "btn-sm"; // Class for button group

@@ -50,7 +50,7 @@ function CurrentLanguageID() {
 function CurrentProjectID() {
 	if (isset($GLOBALS["Page"]))
 		return $GLOBALS["Page"]->ProjectID;
-	return "{F36F5C9B-7A33-450D-8126-2253575B79B0}";
+	return "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}";
 }
 
 // Get current page object
@@ -3986,7 +3986,7 @@ class cAdvancedSecurity {
 						$_SESSION[EW_SESSION_STATUS] = "login";
 						$_SESSION[EW_SESSION_SYS_ADMIN] = 0; // Non System Administrator
 						$this->setCurrentUserName($rs->fields('username')); // Load user name
-						$this->setSessionUserID($rs->fields('userlevel')); // Load User ID
+						$this->setSessionUserID($rs->fields('user_id')); // Load User ID
 						if (is_null($rs->fields('userlevel'))) {
 							$this->setSessionUserLevelID(0);
 						} else {
@@ -4462,7 +4462,7 @@ class cAdvancedSecurity {
 			$sFilter = str_replace("%u", ew_AdjustSql($UserName, EW_USER_TABLE_DBID), EW_USER_NAME_FILTER);
 			$sSql = $UserTable->GetSQL($sFilter, '');
 			if (($RsUser = $UserTableConn->Execute($sSql)) && !$RsUser->EOF) {
-				$UserID = $RsUser->fields('userlevel');
+				$UserID = $RsUser->fields('user_id');
 				$RsUser->Close();
 				return $UserID;
 			}
@@ -4485,7 +4485,7 @@ class cAdvancedSecurity {
 			$sSql = $UserTable->GetSQL($sFilter, '');
 			if ($RsUser = $UserTableConn->Execute($sSql)) {
 				while (!$RsUser->EOF) {
-					$this->AddUserID($RsUser->fields('userlevel'));
+					$this->AddUserID($RsUser->fields('user_id'));
 					$RsUser->MoveNext();
 				}
 				$RsUser->Close();
@@ -4848,6 +4848,17 @@ function Database_Connecting(&$info) {
 	//	$info["pass"] = "";
 	//}
 
+	if (ew_CurrentUserIP () == "127.0.0.1"  || ew_CurrentUserIP () == ":: 1"  || ew_CurrentHost () == "localhost" ) { // testing on local PC
+		$info["host"] = "localhost";
+		$info["user"] = "root"; // sesuaikan dengan username database di komputer localhost
+		$info["pass"] = "admin"; // sesuaikan dengan password database di komputer localhost
+		$info["db"] = "db_ambico"; // sesuaikan dengan nama database di komputer localhost
+	} else { // setting koneksi database untuk komputer server
+		$info["host"] = "mysql.idhostinger.com";  // sesuaikan dengan ip address atau hostname komputer server
+		$info["user"] = "u394242182_aset"; // sesuaikan dengan username database di komputer server
+		$info["pass"] = "PresarioCQ43"; // sesuaikan deengan password database di komputer server
+		$info["db"] = "u394242182_aset"; // sesuaikan dengan nama database di komputer server
+	}
 }
 
 // Database Connected event

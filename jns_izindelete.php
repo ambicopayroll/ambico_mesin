@@ -22,7 +22,7 @@ class cjns_izin_delete extends cjns_izin {
 	var $PageID = 'delete';
 
 	// Project ID
-	var $ProjectID = "{F36F5C9B-7A33-450D-8126-2253575B79B0}";
+	var $ProjectID = "{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}";
 
 	// Table name
 	var $TableName = 'jns_izin';

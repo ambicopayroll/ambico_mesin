@@ -665,19 +665,7 @@ class ct_user extends cTable {
 		// userlevel
 		$this->userlevel->EditAttrs["class"] = "form-control";
 		$this->userlevel->EditCustomAttributes = "";
-		if (!$Security->IsAdmin() && $Security->IsLoggedIn() && !$this->UserIDAllow("info")) { // Non system admin
-			$this->userlevel->CurrentValue = CurrentUserID();
-		if ($Security->CanAdmin()) { // System admin
-		if (strval($this->userlevel->CurrentValue) <> "") {
-			$this->userlevel->EditValue = $this->userlevel->OptionCaption($this->userlevel->CurrentValue);
-		} else {
-			$this->userlevel->EditValue = NULL;
-		}
-		} else {
-			$this->userlevel->EditValue = $Language->Phrase("PasswordMask");
-		}
-		$this->userlevel->ViewCustomAttributes = "";
-		} elseif (!$Security->CanAdmin()) { // System admin
+		if (!$Security->CanAdmin()) { // System admin
 			$this->userlevel->EditValue = $Language->Phrase("PasswordMask");
 		} else {
 		$this->userlevel->EditValue = $this->userlevel->Options(TRUE);
@@ -776,7 +764,7 @@ class ct_user extends cTable {
 
 	// User ID filter
 	function UserIDFilter($userid) {
-		$sUserIDFilter = '`userlevel` = ' . ew_QuotedValue($userid, EW_DATATYPE_NUMBER, EW_USER_TABLE_DBID);
+		$sUserIDFilter = '`user_id` = ' . ew_QuotedValue($userid, EW_DATATYPE_NUMBER, EW_USER_TABLE_DBID);
 		return $sUserIDFilter;
 	}
 
@@ -788,7 +776,7 @@ class ct_user extends cTable {
 		if (!$this->UserIDAllow($id) && !$Security->IsAdmin()) {
 			$sFilterWrk = $Security->UserIDList();
 			if ($sFilterWrk <> "")
-				$sFilterWrk = '`userlevel` IN (' . $sFilterWrk . ')';
+				$sFilterWrk = '`user_id` IN (' . $sFilterWrk . ')';
 		}
 
 		// Call User ID Filtering event

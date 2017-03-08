@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2017/3/7" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2017/3/8" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -582,33 +582,66 @@
   </global>
   <project>
     <phrase id="bodytitle" value="AMBICO" />
-    <phrase id="footertext" value="&amp;copy;2016 e.World Technology Ltd. All rights reserved." />
-    <menu id="61">
+    <phrase id="footertext" value="&amp;copy;2017 AMBICO. All rights reserved." />
+    <menu id="63">
       <phrase id="menutext" value="Dashboard" />
     </menu>
-    <menu id="62">
-      <phrase id="menutext" value="audittrail" />
+    <menu id="128">
+      <phrase id="menutext" value="Absensi" />
     </menu>
-    <menu id="63">
-      <phrase id="menutext" value="t user" />
+    <menu id="233">
+      <phrase id="menutext" value="Pengaturan" />
     </menu>
-    <menu id="1">
-      <phrase id="menutext" value="att log" />
+    <menu id="19">
+      <phrase id="menutext" value="jam kerja extra" />
     </menu>
-    <menu id="2">
-      <phrase id="menutext" value="cuti normatif" />
+    <menu id="64">
+      <phrase id="menutext" value="Master" />
     </menu>
-    <menu id="3">
-      <phrase id="menutext" value="dev type" />
+    <menu id="29">
+      <phrase id="menutext" value="pegawai" />
     </menu>
-    <menu id="4">
-      <phrase id="menutext" value="device" />
+    <menu id="30">
+      <phrase id="menutext" value="pegawai d" />
     </menu>
-    <menu id="5">
-      <phrase id="menutext" value="ganti jdw d" />
+    <menu id="22">
+      <phrase id="menutext" value="jdw kerja m" />
+    </menu>
+    <menu id="21">
+      <phrase id="menutext" value="jdw kerja d" />
+    </menu>
+    <menu id="23">
+      <phrase id="menutext" value="jdw kerja pegawai" />
+    </menu>
+    <menu id="34">
+      <phrase id="menutext" value="pendidikan" />
+    </menu>
+    <menu id="18">
+      <phrase id="menutext" value="jam kerja" />
+    </menu>
+    <menu id="24">
+      <phrase id="menutext" value="jns izin" />
+    </menu>
+    <menu id="26">
+      <phrase id="menutext" value="kontrak kerja" />
+    </menu>
+    <menu id="28">
+      <phrase id="menutext" value="libur" />
+    </menu>
+    <menu id="20">
+      <phrase id="menutext" value="jatah cuti" />
+    </menu>
+    <menu id="17">
+      <phrase id="menutext" value="izin" />
+    </menu>
+    <menu id="127">
+      <phrase id="menutext" value="Proses" />
     </menu>
     <menu id="6">
       <phrase id="menutext" value="ganti jdw jk" />
+    </menu>
+    <menu id="5">
+      <phrase id="menutext" value="ganti jdw d" />
     </menu>
     <menu id="7">
       <phrase id="menutext" value="ganti jdw pegawai" />
@@ -628,6 +661,90 @@
     <menu id="12">
       <phrase id="menutext" value="ganti jk pembagian" />
     </menu>
+    <menu id="43">
+      <phrase id="menutext" value="tukar jam" />
+    </menu>
+    <menu id="27">
+      <phrase id="menutext" value="lembur" />
+    </menu>
+    <menu id="129">
+      <phrase id="menutext" value="Payroll" />
+    </menu>
+    <menu id="2">
+      <phrase id="menutext" value="cuti normatif" />
+    </menu>
+    <menu id="48">
+      <phrase id="menutext" value="z pay com" />
+    </menu>
+    <menu id="49">
+      <phrase id="menutext" value="z pay grp" />
+    </menu>
+    <menu id="50">
+      <phrase id="menutext" value="z pay grp com" />
+    </menu>
+    <menu id="51">
+      <phrase id="menutext" value="z pay grp emp" />
+    </menu>
+    <menu id="52">
+      <phrase id="menutext" value="z pay money" />
+    </menu>
+    <menu id="53">
+      <phrase id="menutext" value="z pay process d" />
+    </menu>
+    <menu id="60">
+      <phrase id="menutext" value="zx kredit m" />
+    </menu>
+    <menu id="59">
+      <phrase id="menutext" value="zx kredit d" />
+    </menu>
+    <menu id="58">
+      <phrase id="menutext" value="zx jns krd" />
+    </menu>
+    <menu id="57">
+      <phrase id="menutext" value="zx bayar kredit" />
+    </menu>
+    <menu id="56">
+      <phrase id="menutext" value="z pay report" />
+    </menu>
+    <menu id="55">
+      <phrase id="menutext" value="z pay process sd" />
+    </menu>
+    <menu id="54">
+      <phrase id="menutext" value="z pay process m" />
+    </menu>
+    <menu id="194">
+      <phrase id="menutext" value="Utilitas" />
+    </menu>
+    <menu id="47">
+      <phrase id="menutext" value="versi db" />
+    </menu>
+    <menu id="61">
+      <phrase id="menutext" value="t user" />
+    </menu>
+    <menu id="62">
+      <phrase id="menutext" value="audittrail" />
+    </menu>
+    <menu id="45">
+      <phrase id="menutext" value="user log" />
+    </menu>
+    <menu id="46">
+      <phrase id="menutext" value="user login" />
+    </menu>
+    <menu id="35">
+      <phrase id="menutext" value="setting" />
+    </menu>
+    <menu id="4">
+      <phrase id="menutext" value="device" />
+    </menu>
+    <menu id="234">
+      <phrase id="menutext" value="Lain-lain" />
+    </menu>
+    <menu id="1">
+      <phrase id="menutext" value="att log" />
+    </menu>
+    <menu id="3">
+      <phrase id="menutext" value="dev type" />
+    </menu>
     <menu id="13">
       <phrase id="menutext" value="grp user d" />
     </menu>
@@ -640,47 +757,8 @@
     <menu id="16">
       <phrase id="menutext" value="index type" />
     </menu>
-    <menu id="17">
-      <phrase id="menutext" value="izin" />
-    </menu>
-    <menu id="18">
-      <phrase id="menutext" value="jam kerja" />
-    </menu>
-    <menu id="19">
-      <phrase id="menutext" value="jam kerja extra" />
-    </menu>
-    <menu id="20">
-      <phrase id="menutext" value="jatah cuti" />
-    </menu>
-    <menu id="21">
-      <phrase id="menutext" value="jdw kerja d" />
-    </menu>
-    <menu id="22">
-      <phrase id="menutext" value="jdw kerja m" />
-    </menu>
-    <menu id="23">
-      <phrase id="menutext" value="jdw kerja pegawai" />
-    </menu>
-    <menu id="24">
-      <phrase id="menutext" value="jns izin" />
-    </menu>
     <menu id="25">
       <phrase id="menutext" value="kategori izin" />
-    </menu>
-    <menu id="26">
-      <phrase id="menutext" value="kontrak kerja" />
-    </menu>
-    <menu id="27">
-      <phrase id="menutext" value="lembur" />
-    </menu>
-    <menu id="28">
-      <phrase id="menutext" value="libur" />
-    </menu>
-    <menu id="29">
-      <phrase id="menutext" value="pegawai" />
-    </menu>
-    <menu id="30">
-      <phrase id="menutext" value="pegawai d" />
     </menu>
     <menu id="31">
       <phrase id="menutext" value="pembagian 1" />
@@ -690,12 +768,6 @@
     </menu>
     <menu id="33">
       <phrase id="menutext" value="pembagian 3" />
-    </menu>
-    <menu id="34">
-      <phrase id="menutext" value="pendidikan" />
-    </menu>
-    <menu id="35">
-      <phrase id="menutext" value="setting" />
     </menu>
     <menu id="36">
       <phrase id="menutext" value="shift result" />
@@ -718,59 +790,8 @@
     <menu id="42">
       <phrase id="menutext" value="tmp uareu" />
     </menu>
-    <menu id="43">
-      <phrase id="menutext" value="tukar jam" />
-    </menu>
     <menu id="44">
       <phrase id="menutext" value="uareu device" />
-    </menu>
-    <menu id="45">
-      <phrase id="menutext" value="user log" />
-    </menu>
-    <menu id="46">
-      <phrase id="menutext" value="user login" />
-    </menu>
-    <menu id="47">
-      <phrase id="menutext" value="versi db" />
-    </menu>
-    <menu id="48">
-      <phrase id="menutext" value="z pay com" />
-    </menu>
-    <menu id="49">
-      <phrase id="menutext" value="z pay grp" />
-    </menu>
-    <menu id="50">
-      <phrase id="menutext" value="z pay grp com" />
-    </menu>
-    <menu id="51">
-      <phrase id="menutext" value="z pay grp emp" />
-    </menu>
-    <menu id="52">
-      <phrase id="menutext" value="z pay money" />
-    </menu>
-    <menu id="53">
-      <phrase id="menutext" value="z pay process d" />
-    </menu>
-    <menu id="54">
-      <phrase id="menutext" value="z pay process m" />
-    </menu>
-    <menu id="55">
-      <phrase id="menutext" value="z pay process sd" />
-    </menu>
-    <menu id="56">
-      <phrase id="menutext" value="z pay report" />
-    </menu>
-    <menu id="57">
-      <phrase id="menutext" value="zx bayar kredit" />
-    </menu>
-    <menu id="58">
-      <phrase id="menutext" value="zx jns krd" />
-    </menu>
-    <menu id="59">
-      <phrase id="menutext" value="zx kredit d" />
-    </menu>
-    <menu id="60">
-      <phrase id="menutext" value="zx kredit m" />
     </menu>
     <table id="att_log">
       <phrase id="tblcaption" value="att log" />
@@ -2299,8 +2320,26 @@
         <phrase id="fldcaption" value="lastupdate user" />
       </field>
     </table>
-    <table id="dashboard_php">
-      <phrase id="tblcaption" value="Dashboard" />
+    <table id="t_user">
+      <phrase id="tblcaption" value="t user" />
+      <field id="user_id">
+        <phrase id="fldcaption" value="user id" />
+      </field>
+      <field id="username">
+        <phrase id="fldcaption" value="username" />
+      </field>
+      <field id="password">
+        <phrase id="fldcaption" value="password" />
+      </field>
+      <field id="userlevel">
+        <phrase id="fldcaption" value="userlevel" />
+        <phrase id="fldtagvalue1" value="-2" />
+        <phrase id="fldtagcaption1" value="Anonymous" />
+        <phrase id="fldtagvalue2" value="-1" />
+        <phrase id="fldtagcaption2" value="Administrator" />
+        <phrase id="fldtagvalue3" value="0" />
+        <phrase id="fldtagcaption3" value="Default" />
+      </field>
     </table>
     <table id="audittrail">
       <phrase id="tblcaption" value="audittrail" />
@@ -2335,26 +2374,8 @@
         <phrase id="fldcaption" value="newvalue" />
       </field>
     </table>
-    <table id="t_user">
-      <phrase id="tblcaption" value="t user" />
-      <field id="user_id">
-        <phrase id="fldcaption" value="user id" />
-      </field>
-      <field id="username">
-        <phrase id="fldcaption" value="username" />
-      </field>
-      <field id="password">
-        <phrase id="fldcaption" value="password" />
-      </field>
-      <field id="userlevel">
-        <phrase id="fldcaption" value="userlevel" />
-        <phrase id="fldtagvalue1" value="-2" />
-        <phrase id="fldtagcaption1" value="Anonymous" />
-        <phrase id="fldtagvalue2" value="-1" />
-        <phrase id="fldtagcaption2" value="Administrator" />
-        <phrase id="fldtagvalue3" value="0" />
-        <phrase id="fldtagcaption3" value="Default" />
-      </field>
+    <table id="dashboard_php">
+      <phrase id="tblcaption" value="Dashboard" />
     </table>
   </project>
 </ew-language>

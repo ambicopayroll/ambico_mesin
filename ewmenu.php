@@ -71,9 +71,6 @@ $RootMenu->AddMenuItem(37, "mi_sms_group", $Language->MenuPhrase("37", "MenuText
 $RootMenu->AddMenuItem(38, "mi_sms_group_member", $Language->MenuPhrase("38", "MenuText"), "sms_group_memberlist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}sms_group_member'), FALSE, FALSE);
 $RootMenu->AddMenuItem(39, "mi_sms_recipient", $Language->MenuPhrase("39", "MenuText"), "sms_recipientlist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}sms_recipient'), FALSE, FALSE);
 $RootMenu->AddMenuItem(40, "mi_temp_pegawai", $Language->MenuPhrase("40", "MenuText"), "temp_pegawailist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}temp_pegawai'), FALSE, FALSE);
-$RootMenu->AddMenuItem(41, "mi_tmp", $Language->MenuPhrase("41", "MenuText"), "tmplist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}tmp'), FALSE, FALSE);
-$RootMenu->AddMenuItem(42, "mi_tmp_uareu", $Language->MenuPhrase("42", "MenuText"), "tmp_uareulist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}tmp_uareu'), FALSE, FALSE);
-$RootMenu->AddMenuItem(44, "mi_uareu_device", $Language->MenuPhrase("44", "MenuText"), "uareu_devicelist.php", 234, "", AllowListMenu('{0B4A4F9E-7A2B-4234-9791-3975C1DCDDA1}uareu_device'), FALSE, FALSE);
 $RootMenu->AddMenuItem(-2, "mi_changepwd", $Language->Phrase("ChangePwd"), "changepwd.php", -1, "", IsLoggedIn() && !IsSysAdmin());
 $RootMenu->AddMenuItem(-1, "mi_logout", $Language->Phrase("Logout"), "logout.php", -1, "", IsLoggedIn());
 $RootMenu->AddMenuItem(-1, "mi_login", $Language->Phrase("Login"), "login.php", -1, "", !IsLoggedIn() && substr(@$_SERVER["URL"], -1 * strlen("login.php")) <> "login.php");
